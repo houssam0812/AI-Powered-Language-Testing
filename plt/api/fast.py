@@ -1,8 +1,8 @@
 import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from taxifare.ml_logic.registry import load_model
-from taxifare.ml_logic.preprocessor import preprocess_features
+from plt.dl_logic.model import load_model
+from plt.dl_logic.transformer import preprocess_features
 import uvicorn
 
 
@@ -20,9 +20,8 @@ app.add_middleware(
 )
 
 @app.get("/predict")
-def predict(text)
+def predict(text):
 # X_pred = 
-# X_processed = ...(X_pred)
 # y_pred = app.state.model.predict(X_processed)
 # return {'Text Score' : y_pred}
 
