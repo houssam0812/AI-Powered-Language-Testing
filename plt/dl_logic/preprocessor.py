@@ -1,7 +1,5 @@
 import numpy as np
 import pandas as pd
-from colorama import Fore, Style
-
 from transformers import DebertaV2TokenizerFast
 
 def load_train_test_data(file_path:str, y_index:int=-1, split_ratio:float=0.3,reshuffle:bool=True):
@@ -30,7 +28,7 @@ def load_train_test_data(file_path:str, y_index:int=-1, split_ratio:float=0.3,re
         y_test=y_test.iloc[:,[y_index]]
     return list(X_train_raw), list(X_test_raw), y_train, y_test
 
-def load_tokenizer(tokenizer=DebertaV2TokenizerFast.from_pretrained("microsoft/deberta-v2-xlarge")):
+def load_tokenizer():
     tokenizer= DebertaV2TokenizerFast.from_pretrained("microsoft/deberta-v2-xlarge")
     return tokenizer
 

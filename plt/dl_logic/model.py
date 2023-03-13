@@ -9,8 +9,9 @@ from transformers import  TFDebertaV2Model
 from tensorflow.keras import callbacks
 from tensorflow.keras import layers, Input, Sequential, Model
 from tensorflow.keras.callbacks import ModelCheckpoint
-from plt.dl_logic.preprocess import tokenizer, tokenize
-from params import *
+from transformers import DebertaV2TokenizerFast
+from plt.dl_logic.preprocessor import tokenize, load_tokenizer
+from plt.params import *
 
 # Define the model 
 # Here we use the output of the pretrained DeBerta model as an input of a dense intermediate layer, 
@@ -18,23 +19,26 @@ from params import *
 
 # Load model 
 def load_weights(model: Model) -> keras.Model:
-    from google.cloud import storage
-    client = storage.Client()
-    try:
+    
+    #from google.cloud import storage
+    #client = storage.Client()
+    #try:
             # Define the path to save the model
-            latest_model_path_to_save = os.path.join(LOCAL_REGISTRY_PATH, model.name)
+            #latest_model_path_to_save = os.path.join(LOCAL_REGISTRY_PATH, 'model.h5')
+            #print(latest_model_path_to_save)
             # Reference to the bucket
-            bucket = client.get_bucket(BUCKET_NAME)
-            blob = bucket.blob(latest_model_path_to_save)
+      #      bucket = client.get_bucket(BUCKET_NAME)
+       #     blob = bucket.blob(latest_model_path_to_save)
             # Download the model
-            blob.download_to_filename(latest_model_path_to_save)
+        #    blob.download_to_filename(latest_model_path_to_save)
             # Load the model
-            model = keras.models.load_weigths(latest_model_path_to_save)
-            print("✅ Latest model downloaded from cloud storage")
+            model.load_weights('raw_data/training_outputs/model.h5')
+            print("✅ Latest model downloaded from load storage")
             return model
-    except:
-            print(f"\n❌ No model found on GCS bucket {BUCKET_NAME}")
-            return None
+    # except:
+    #             print("❌ No model found on local registry")
+    #             #print(f"\n❌ No model found on GCS bucket {BUCKET_NAME}")
+    #             return None
 
 
  
@@ -63,22 +67,15 @@ def initialize_model(input_shape= 512) -> Model:
     output= [cohesion_output, syntax_output, vocabulary_output, phraseology_output, grammar_output, conventions_output]
     #Assembling the model
     model = Model(inputs = [input_ids, attention_mask], outputs = output)
-    print("✅ model initialized")
+    def compile_model(model: Model) -> Model :
+        def root_mean_squared_error(y_true, y_pred):
+            return K.sqrt(K.mean(K.square(y_pred - y_true), axis=-1))
+        model.compile(loss='mse', optimizer='adam',loss_weights=[1/6 for i in range(6)], metrics= root_mean_squared_error)
+        return model 
     return model 
 
-# Define the metric
-def root_mean_squared_error(y_true, y_pred):
-        return K.sqrt(K.mean(K.square(y_pred - y_true), axis=-1))
 
-# Compile the model 
-def compile_model(model: Model) -> Model :
-    model.compile(loss='mse', optimizer='adam',loss_weights=[1/6 for i in range(6)], metrics= root_mean_squared_error)
-    return model 
 
-# Train the model 
-# X={'input_ids':tokenized_train_texts['input_ids'],
- #                          'attention_mask':tokenized_train_texts['attention_mask']}
- # y= train_targets
 def train (model: Model,
            X: dict,
            y: pd.DataFrame,
@@ -140,18 +137,29 @@ def prediction(model: Model,
     if model is None:
         print(f"\n❌ no model to predict")
         return None
+
     
-    
-    test_predictions = model.predict(X)  
+    X_tokenized = tokenize(X)
+
+    test_predictions = model.predict(X_tokenized)  
     predictions_list = []
     for i in range(len(test_predictions[0])):
         prediction_dict = {'cohesion': test_predictions[0][i],
-                        'syntax': test_predictions[1][i],
-                        'vocabulary': test_predictions[2][i],
-                        'phraseology': test_predictions[3][i],
-                        'grammar': test_predictions[4][i],
-                        'conventions': test_predictions[5][i]}
-    predictions_list.append(prediction_dict)
-    predictions_df = pd.DataFrame(predictions_list)
+                            'syntax': test_predictions[1][i],
+                            'vocabulary': test_predictions[2][i],
+                            'phraseology': test_predictions[3][i],
+                            'grammar': test_predictions[4][i],
+                            'conventions': test_predictions[5][i]}
+        predictions_list.append(prediction_dict)
+        predictions_df = pd.DataFrame(predictions_list)
                                 
     return predictions_df
+
+def select_one_text() -> str:
+    test_path='/Users/mathieusavary/code/houssam0812/AI-Powered-Language-Testing/raw_data/test.csv'
+
+    df=pd.read_csv(test_path)
+    X =new_str0=df.iat[0,1]
+    new_str1=df.iat[1,1]
+    new_str2=df.iat[2,1]
+    return X 

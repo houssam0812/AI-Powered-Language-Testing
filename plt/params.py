@@ -10,5 +10,8 @@ BUCKET_NAME = os.environ.get("BUCKET_NAME")
 input_shape=(512)
 
 ################ CONSTANTS ################
-LOCAL_DATA_PATH = os.path.join(os.path.expanduser('~'), ".houssam0812", "raw_data")
-LOCAL_REGISTRY_PATH =  os.path.join(os.path.expanduser('~'), ".houssam0812", "raw_data", "training_outputs")
+LOCAL_DATA_PATH = os.path.join("/Users","mathieusavary","code", "houssam0812","AI-Powered-Language-Testing", "raw_data")
+LOCAL_REGISTRY_PATH =  os.path.join("/Users","mathieusavary","code", "houssam0812","AI-Powered-Language-Testing", "raw_data", "training_outputs")
+LOCAL_TEST_PATH = os.path.join("/Users","mathieusavary","code", "houssam0812","AI-Powered-Language-Testing", "raw_data", "test.csv")
+print(LOCAL_REGISTRY_PATH)
+#/Users/mathieusavary/code/houssam0812/AI-Powered-Language-Testing/raw_data/training_outputs/model.h5
