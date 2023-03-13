@@ -4,19 +4,22 @@ import requests
 '''
 # Welcome to Mind Magic
 '''
+url = 'https://taxifare.lewagon.ai/predict'
 
 text_source = st.radio('Select a data source', ('Enter a text', 'News article', 'Ask ChatGPT'))
 st.write(text_source)
 
 if text_source == 'Enter a text':
-    full_text = st.text_input('Enter a text')
-elif text_source == 'News article':
-    full_text = st.text_input('Enter a URL')
+    text_input = st.text_input('Enter a text')
 
-elif text_source == 'Ask ChatGPT':
-    full_text = st.text_input('Enter a URL')
+elif text_source == 'News article':
+    text_input = st.text_input('Topic')
+    text_api_url=''
+    text_api_params=text_input
+
 else:
-    st.write('◀️')
+    gpt_question = st.text_input('Ask ChatGPT')
+
 # st.markdown('''
 # Remember that there are several ways to output content into your web page...
 
