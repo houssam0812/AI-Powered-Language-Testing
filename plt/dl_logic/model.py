@@ -10,13 +10,14 @@ from tensorflow.keras import callbacks
 from tensorflow.keras import layers, Input, Sequential, Model
 from tensorflow.keras.callbacks import ModelCheckpoint
 from plt.dl_logic.preprocess import tokenizer, tokenize
+from params import *
 
 # Define the model 
 # Here we use the output of the pretrained DeBerta model as an input of a dense intermediate layer, 
 # then we input the result in the linear regression parallele output layers, for each target.
 
 # Load model 
-def load_weights() -> keras.Model:
+def load_weights(model: Model) -> keras.Model:
     from google.cloud import storage
     client = storage.Client()
     try:
@@ -38,7 +39,7 @@ def load_weights() -> keras.Model:
 
  
 
-def initialize_model(input_shape) -> Model:
+def initialize_model(input_shape= 512) -> Model:
     
 # Import the needed model with output_hidden_states=True
     transformer = TFDebertaV2Model.from_pretrained('microsoft/deberta-v2-xlarge', output_hidden_states=True, return_dict=True)
@@ -131,15 +132,16 @@ def save_weights(model: Model, path: str):
     model.save_weights('/path/to/weights.h5') #path to be defined
     return f"✅ model weights saved to {path}"
 
+
 # Predict the score of a new text
-def predict(model: Model,
-            X: dict,) -> np.array:
+def prediction(model: Model,
+            X: str,) -> np.array:
     
     if model is None:
         print(f"\n❌ no model to predict")
         return None
     
-    tokenized_test_texts = tokenize(X)
+    
     test_predictions = model.predict(X)  
     predictions_list = []
     for i in range(len(test_predictions[0])):
