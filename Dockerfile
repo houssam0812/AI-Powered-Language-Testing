@@ -1,4 +1,4 @@
-FROM 
+FROM python:3.10.6-bullseye
 
 # We strip the requirements from useless packages like `ipykernel`, `matplotlib` etc...
 COPY requirements.txt requirements.txt
