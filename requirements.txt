@@ -23,7 +23,6 @@ defusedxml
 dill
 exceptiongroup
 executing
-fastapi
 fastjsonschema
 fonttools
 fqdn
@@ -96,7 +95,6 @@ scipy
 seaborn
 Send2Trash
 setuptools
-sentencepiece
 six
 sniffio
 soupsieve
@@ -108,7 +106,6 @@ tomlkit
 typing_extensions
 uri-template
 urllib3
-uvicorn
 wcwidth
 webcolors
 websocket-client
@@ -129,4 +126,3 @@ tensorflow==2.10.0; sys_platform != 'darwin' # Windows & Ubuntu Intel chips
 # NLP tools
 torch
 transformers
-sentencepiece
