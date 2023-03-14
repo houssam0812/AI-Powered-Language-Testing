@@ -18,7 +18,7 @@ from plt.params import *
 # then we input the result in the linear regression parallele output layers, for each target.
 
 # Load model
-def load_weights(model: Model) -> keras.Model:
+def load_weights(model: Model) -> Model:
 
     #from google.cloud import storage
     #client = storage.Client()
@@ -160,10 +160,14 @@ def prediction(model: Model,
     return predictions_df
 
 def select_one_text() -> str:
-    test_path='/Users/mathieusavary/code/houssam0812/AI-Powered-Language-Testing/raw_data/test.csv'
-
+    # test_path='/Users/mathieusavary/code/houssam0812/AI-Powered-Language-Testing/raw_data/test.csv'
+    test_path='~/code/houssam0812/AI-Powered-Language-Testing/raw_data/test.csv'
+    print(test_path)
     df=pd.read_csv(test_path)
     X =new_str0=df.iat[0,1]
     new_str1=df.iat[1,1]
     new_str2=df.iat[2,1]
     return X
+
+if __name__ == "__main__":
+    print(select_one_text())
