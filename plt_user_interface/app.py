@@ -49,13 +49,8 @@ else:
   )
     full_text=chatgpt_response['choices'][0]['message']['content']
     if gpt_question:
-        st.write(full_text)
-
-# st.markdown('''
-# Remember that there are several ways to output content into your web page...
-
-# Either as with the title by just creating a string (or an f-string). Or as with this paragraph using the `st.` functions
-# ''')
+        #st.write(full_text)
+        st.markdown(f'<div style="text-align: justify;f">{full_text}</div>', unsafe_allow_html=True)
 
 #2. Dictionary of the parameters for our API...
 #params=dict(full_text=full_text)
@@ -69,4 +64,8 @@ else:
 scores={"cohesion" : [3], "syntax": [3] , "vocabulary": [3], "phraseology": [3], "grammar": [3], "conventions": [3] }
 # 5. we can display the prediction to the user
 scores_table= pd.DataFrame.from_dict(scores)
-scores_table
+
+if full_text:
+    columns = st.columns(6)
+    for i in range(len(scores_table.columns)):
+        score_to_print = columns[i].text_input(scores_table.columns[i], value=scores_table.loc[0,scores_table.columns[i]])
