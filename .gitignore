@@ -1,6 +1,8 @@
 raw_data/
 notebooks/.ipynb_checkpoints/
 .env
+*/.pyc
+**/__pycache__/
 
 # OS generated files #
 ######################
