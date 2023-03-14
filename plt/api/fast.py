@@ -6,9 +6,9 @@ from plt.dl_logic.model import load_weights,initialize_model,prediction,select_o
 import uvicorn
 
 model=initialize_model() #expecting compile to be embedded in initialize
-
+load_weights(model)
 app = FastAPI()
-app.state.model = load_weights(model)
+app.state.model = model
 
 # app.state.tokenizer = load_tokenizer() #no *arg expected in "load_tokenizer"
 
@@ -31,8 +31,10 @@ def score_text(text):
 def score_test():
     model=app.state.model
     text = select_one_text()
-    evaluation_score= prediction(model,text)
-    return {' evaluation scores': evaluation_score}
+    print(text)
+    evaluation_score_dict= prediction(model,text)
+    print(evaluation_score_dict)
+    return {' evaluation scores': evaluation_score_dict}
 
 
 @app.get("/test")
