@@ -1,15 +1,15 @@
 import os
 import pandas as pd
 import numpy as np
-import keras
+# import keras
 from keras import backend as K
-from keras import Model, Input
+# from keras import Model, Input
 from typing import Tuple
 from transformers import  TFDebertaV2Model
+from transformers import DebertaV2TokenizerFast
 from tensorflow.keras import callbacks
 from tensorflow.keras import layers, Input, Sequential, Model
 from tensorflow.keras.callbacks import ModelCheckpoint
-from transformers import DebertaV2TokenizerFast
 from plt.dl_logic.preprocessor import tokenize, load_tokenizer
 from plt.params import *
 
@@ -46,7 +46,11 @@ def load_weights(model: Model) -> keras.Model:
 def initialize_model(input_shape= 512) -> Model:
 
 # Import the needed model with output_hidden_states=True
+    # debug
+    # print(1)
     transformer = TFDebertaV2Model.from_pretrained('microsoft/deberta-v2-xlarge', output_hidden_states=True, return_dict=True)
+    # debug
+    # print(2)
     transformer.trainable = False
     input_ids = Input(shape=((input_shape)),dtype='int32', name='input_ids')
     attention_mask = Input(shape=((input_shape)), dtype='int32', name='attention_mask')
