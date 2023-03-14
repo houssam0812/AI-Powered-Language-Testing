@@ -13,7 +13,7 @@ openai_api_key= st.secrets.openai_api.key
 openai.api_key=openai_api_key
 
 # 1. Get the text to be tested
-prediction_url = 'Prediction URL' #URL of AI Powerered language testing API
+prediction_url = 'http://127.0.0.1:8000/predict/' #URL of AI Powerered language testing API
 news_api_url='https://newsdata.io/api/1/news' # URL of the api generating news articles from a topic/keyword
 
 
@@ -58,24 +58,27 @@ else:
         #st.write(full_text)
         st.markdown(f'<div style="text-align: justify;">{full_text}</div>', unsafe_allow_html=True)
 #2. Dictionary of the parameters for our API...
-#params=dict(full_text=full_text)
+if full_text:   
+    params=dict(text= full_text)
+    
+    
 
-# 3. Let's call our API using the `requests` package...
-#res=requests.get(url, params).json()
+    # 3. Let's call our API using the `requests` package...
+    scores=requests.get(prediction_url, params).json()
 
-# 4. Let's retrieve the prediction from the **JSON** returned by the API...
-#scores=res['evaluation_score']
+    # 4. Let's retrieve the prediction from the **JSON** returned by the API...
+    #scores=res['evaluation_score']
 
-scores={"cohesion" : [2.5574], "syntax": [1] , "vocabulary": [3], "phraseology": [3], "grammar": [3], "conventions": [3] }
-# 5. we can display the prediction to the user
-scores_table= pd.DataFrame.from_dict(scores)
+    #scores={"cohesion" : [2.5574], "syntax": [1] , "vocabulary": [3], "phraseology": [3], "grammar": [3], "conventions": [3] }
+    # 5. we can display the prediction to the user
+    scores_table= pd.DataFrame.from_dict(scores["evaluation_scores"])
 
-columns = st.columns(6)
-if full_text:
-    for i in range(len(scores_table.columns)):
-        #score_type = columns[i].write(scores_table.columns[i])
-        score_type = columns[i].markdown(f'<div style="text-align: center;">{scores_table.columns[i]}</div>', unsafe_allow_html=True)
-        if scores_table.loc[0,scores_table.columns[i]]>=2.5:
-            score_value=columns[i].success(scores_table.loc[0,scores_table.columns[i]])
-        else:
-            score_value=columns[i].error(scores_table.loc[0,scores_table.columns[i]])
+    columns = st.columns(6)
+    if full_text:
+        for i in range(len(scores_table.columns)):
+            #score_type = columns[i].write(scores_table.columns[i])
+            score_type = columns[i].markdown(f'<div style="text-align: center;">{scores_table.columns[i]}</div>', unsafe_allow_html=True)
+            if scores_table.loc[0,scores_table.columns[i]]>=2.5:
+                score_value=columns[i].success(scores_table.loc[0,scores_table.columns[i]])
+            else:
+                score_value=columns[i].error(scores_table.loc[0,scores_table.columns[i]])

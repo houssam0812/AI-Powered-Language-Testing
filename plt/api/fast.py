@@ -23,9 +23,11 @@ app.state.model = model
 
 @app.get("/predict")
 def score_text(text):
+    print(text)
     model=app.state.model
     evaluation_score= prediction(model,text)
-    return {' evaluation scores': evaluation_score}
+    print(evaluation_score)
+    return {'evaluation_scores': evaluation_score}
 
 @app.get("/predict/test")
 def score_test():
@@ -34,7 +36,7 @@ def score_test():
     print(text)
     evaluation_score_dict= prediction(model,text)
     print(evaluation_score_dict)
-    return {' evaluation scores': evaluation_score_dict}
+    return {'evaluation_scores': evaluation_score_dict}
 
 
 @app.get("/test")

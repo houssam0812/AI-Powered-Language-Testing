@@ -34,6 +34,6 @@ def load_tokenizer():
 
 def tokenize(data_to_predict : pd.DataFrame) -> dict:
     tokenizer=load_tokenizer()
-    tokenized_texts_to_predict = tokenizer(data_to_predict, return_tensors='tf',truncation=True, padding=True)
+    tokenized_texts_to_predict = tokenizer(data_to_predict, return_tensors='tf',truncation='longest_first', padding='max_length', max_length=512)
     return {'input_ids':tokenized_texts_to_predict['input_ids'],
             'attention_mask':tokenized_texts_to_predict['attention_mask']}
