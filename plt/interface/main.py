@@ -3,11 +3,11 @@ from plt.dl_logic.model import initialize_model, load_weights, prediction, selec
 
 if __name__ == "__main__":
 
-    model_1 = initialize_model()
+    model = initialize_model()
     print("✅ model initialized")
     print("✅ model compiled")
-    model_2 = load_weights(model_1)
+    load_weights(model)
     print("✅ model weigths loaded")
     X = select_one_text()
-    predictions = prediction(model_2, X)
+    predictions = prediction(model, X)
     print(predictions)
