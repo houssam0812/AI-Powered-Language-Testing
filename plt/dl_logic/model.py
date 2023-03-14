@@ -141,7 +141,7 @@ def prediction(model: Model,
 
 
     X_tokenized = tokenize(X)
-
+    print(len(X_tokenized))
     test_predictions = model.predict(X_tokenized)
     def score_to_dict(score):
         metrics=['cohesion', 'syntax', 'vocabulary', 'phraseology', 'grammar', 'conventions']
