@@ -13,5 +13,5 @@ input_shape=(512)
 LOCAL_DATA_PATH = os.path.join("/Users","mathieusavary","code", "houssam0812","AI-Powered-Language-Testing", "raw_data")
 LOCAL_REGISTRY_PATH =  os.path.join("/Users","mathieusavary","code", "houssam0812","AI-Powered-Language-Testing", "raw_data", "training_outputs")
 LOCAL_TEST_PATH = os.path.join("/Users","mathieusavary","code", "houssam0812","AI-Powered-Language-Testing", "raw_data", "test.csv")
-print(LOCAL_REGISTRY_PATH)
+
 #/Users/mathieusavary/code/houssam0812/AI-Powered-Language-Testing/raw_data/training_outputs/model.h5
