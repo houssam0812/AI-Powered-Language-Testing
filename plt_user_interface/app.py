@@ -30,10 +30,10 @@ elif text_source == 'News article':
     'language':'en',
     'category':'business',
 }
-
-    res = requests.get(news_api_url, params=query_params)
-    full_text= res.json()['results'][0]["content"]
-    st.write(full_text)
+    if keyword_topic:
+        res = requests.get(news_api_url, params=query_params)
+        full_text= res.json()['results'][0]["content"]
+        st.write(full_text)
 
 # >>>>>>>>3rd Scenario : the user asks chatgpt for a text based
 else:
@@ -42,31 +42,20 @@ else:
     chatgpt_response=openai.ChatCompletion.create(
   model="gpt-3.5-turbo",
   messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "system", "content": "Hello, can you help me write a text ?"},
         {"role": "user", "content": gpt_question},
 
     ]
   )
     full_text=chatgpt_response['choices'][0]['message']['content']
-    st.write(full_text)
+    if gpt_question:
+        st.write(full_text)
 
 # st.markdown('''
 # Remember that there are several ways to output content into your web page...
 
 # Either as with the title by just creating a string (or an f-string). Or as with this paragraph using the `st.` functions
 # ''')
-
-# '''
-# ## Here we would like to add some controllers in order to ask the user to select the parameters of the ride
-
-# 1. Let's ask for:
-# - date and time
-# - pickup longitude
-# - pickup latitude
-# - dropoff longitude
-# - dropoff latitude
-# - passenger count
-# '''#
 
 #2. Dictionary of the parameters for our API...
 #params=dict(full_text=full_text)
