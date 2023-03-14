@@ -8,7 +8,7 @@ import uvicorn
 model=initialize_model() #expecting compile to be embedded in initialize
 
 app = FastAPI()
-#1 app.state.model = load_weights(model)
+app.state.model = load_weights(model)
 
 # app.state.tokenizer = load_tokenizer() #no *arg expected in "load_tokenizer"
 
@@ -23,9 +23,9 @@ app = FastAPI()
 
 @app.get("/predict")
 def score_text(text):
-#1  model=app.state.model
-#2  evaluation_score= prediction(model,text)
-    return {' evaluation scores': text + " tata"}
+    model=app.state.model
+    evaluation_score= prediction(model,text)
+    return {' evaluation scores': evaluation_score}
 
 @app.get("/test")
 def score_text(text):
