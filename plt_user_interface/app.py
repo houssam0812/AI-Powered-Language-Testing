@@ -19,13 +19,13 @@ news_api_url='https://newsdata.io/api/1/news' # URL of the api generating news a
 
 
 # Asking the user to ask the source of the text
-text_source = st.radio('Where from do you want to fetch your text?', ('Enter a text', 'News article', 'Ask ChatGPT'))
+text_source = st.radio('How do you want to fetch your text?', ('Enter a text', 'News article', 'Ask ChatGPT'))
 full_text=''
 # >>>>>>>>1st Scenario : the user enters a text
 if text_source == 'Enter a text':
     #st.write('Enter a text')
     full_text = st.text_input('Enter a text','')
-
+    st.markdown(f'<div style="text-align: justify;">{full_text}</div>', unsafe_allow_html=True)
 # >>>>>>>>2nd Scenario : the user enters a topic on the basis of which the news article will be fetched
 elif text_source == 'News article':
     #st.write('Enter topic/keyword(s)')
@@ -43,7 +43,7 @@ elif text_source == 'News article':
         st.markdown(f'<div style="text-align: justify;">{full_text}</div>', unsafe_allow_html=True)
 # >>>>>>>>3rd Scenario : the user asks chatgpt for a text based
 else:
-    #st.write('Ask ChatGPT')
+
     gpt_question = st.text_input('Enter your question here', '')
     chatgpt_response=openai.ChatCompletion.create(
   model="gpt-3.5-turbo",
@@ -64,14 +64,14 @@ if full_text:
     if st.button("Submit"):
         #params=dict(text= full_text)
 
-        # 3. Let's call our API using the `requests` package...
+# 3. Let's call our API using the `requests` package...
         #res=requests.get(prediction_url, params).json()
 
-        # 4. Let's retrieve the prediction from the **JSON** returned by the API...
+# 4. Let's retrieve the prediction from the **JSON** returned by the API...
         res={"evaluation_scores": {"Cohesion" : [2.5574], "Syntax": [1.5574] , "Vocabulary": [4.5574], "Phraseology": [3], "Grammar": [3.4356], "Conventions": [3.1563] }}
         scores=res['evaluation_scores']
 
-        # 5. we can display the prediction to the user
+# 5. we can display the prediction to the user
         scores_table= pd.DataFrame.from_dict(scores)
 
         columns = st.columns(6)
