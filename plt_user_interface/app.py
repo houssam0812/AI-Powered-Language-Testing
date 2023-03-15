@@ -6,6 +6,7 @@ import pandas as pd
 '''
 # Welcome to Mind Magic
 '''
+primary_clr = st.get_option("theme.primaryColor")
 # 0. Fetching API keys from secrets
 spell = st.secrets['spell']
 news_api_key = st.secrets.news_api.key
@@ -58,27 +59,27 @@ else:
         #st.write(full_text)
         st.markdown(f'<div style="text-align: justify;">{full_text}</div>', unsafe_allow_html=True)
 #2. Dictionary of the parameters for our API...
-if full_text:   
-    params=dict(text= full_text)
-    
-    
+if full_text:
+    st.write("\n")
+    if st.button("Submit"):
+        #params=dict(text= full_text)
 
-    # 3. Let's call our API using the `requests` package...
-    scores=requests.get(prediction_url, params).json()
+        # 3. Let's call our API using the `requests` package...
+        #res=requests.get(prediction_url, params).json()
 
-    # 4. Let's retrieve the prediction from the **JSON** returned by the API...
-    #scores=res['evaluation_score']
+        # 4. Let's retrieve the prediction from the **JSON** returned by the API...
+        res={"evaluation_scores": {"Cohesion" : [2.5574], "Syntax": [1.5574] , "Vocabulary": [4.5574], "Phraseology": [3], "Grammar": [3.4356], "Conventions": [3.1563] }}
+        scores=res['evaluation_scores']
 
-    #scores={"cohesion" : [2.5574], "syntax": [1] , "vocabulary": [3], "phraseology": [3], "grammar": [3], "conventions": [3] }
-    # 5. we can display the prediction to the user
-    scores_table= pd.DataFrame.from_dict(scores["evaluation_scores"])
+        # 5. we can display the prediction to the user
+        scores_table= pd.DataFrame.from_dict(scores)
 
-    columns = st.columns(6)
-    if full_text:
+        columns = st.columns(6)
         for i in range(len(scores_table.columns)):
             #score_type = columns[i].write(scores_table.columns[i])
             score_type = columns[i].markdown(f'<div style="text-align: center;">{scores_table.columns[i]}</div>', unsafe_allow_html=True)
-            if scores_table.loc[0,scores_table.columns[i]]>=2.5:
-                score_value=columns[i].success(scores_table.loc[0,scores_table.columns[i]])
+            score_value= scores_table.loc[0,scores_table.columns[i]]
+            if score_value>=2.5:
+                score_value=columns[i].success(round(score_value/0.5)*0.5)
             else:
-                score_value=columns[i].error(scores_table.loc[0,scores_table.columns[i]])
+                score_value=columns[i].error(round(score_value/0.5)*0.5)
