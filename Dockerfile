@@ -1,4 +1,4 @@
-FROM python:3.10.6-bullseye
+FROM python:3.10.6-buster
 
 # We strip the requirements from useless packages like `ipykernel`, `matplotlib` etc...
 COPY requirements.txt requirements.txt
@@ -7,5 +7,9 @@ RUN pip install -r requirements.txt
 COPY plt plt
 COPY setup.py setup.py
 RUN pip install .
+# RUN pip install -e .
+
+# COPY Makefile Makefile
+# RUN make run_api
 
 #CMD uvicorn plt.api.fast:app --host 0.0.0.0 --port $PORT
