@@ -1,4 +1,4 @@
-# general
+# General
 numpy
 pandas
 pip
@@ -18,6 +18,6 @@ keras
 transformers
 sentencepiece
 
-#GCP
-google-cloud-storage
+#Google Cloud Plateform
+#google-cloud-storage # on devrait supprimer ce package car on a finalement mis les model_weights dans le docker !
 #google-cloud
