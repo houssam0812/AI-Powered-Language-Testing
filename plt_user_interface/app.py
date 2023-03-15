@@ -14,7 +14,7 @@ openai_api_key= st.secrets.openai_api.key
 openai.api_key=openai_api_key
 
 # 1. Get the text to be tested
-prediction_url = 'http://127.0.0.1:8000/predict/' #URL of AI Powerered language testing API
+prediction_url = 'https://textwizard-3fpi23igxa-ew.a.run.app/predict/' #URL of AI Powerered language testing API
 news_api_url='https://newsdata.io/api/1/news' # URL of the api generating news articles from a topic/keyword
 
 
@@ -62,13 +62,13 @@ else:
 if full_text:
     st.write("\n")
     if st.button("Submit"):
-        #params=dict(text= full_text)
+        params=dict(text=full_text)
 
 # 3. Let's call our API using the `requests` package...
-        #res=requests.get(prediction_url, params).json()
+        res=requests.get(prediction_url, params).json()
 
 # 4. Let's retrieve the prediction from the **JSON** returned by the API...
-        res={"evaluation_scores": {"Cohesion" : [2.5574], "Syntax": [1.5574] , "Vocabulary": [4.5574], "Phraseology": [3], "Grammar": [3.4356], "Conventions": [3.1563] }}
+        #res={"evaluation_scores": {"Cohesion" : [2.5574], "Syntax": [1.5574] , "Vocabulary": [4.5574], "Phraseology": [3], "Grammar": [3.4356], "Conventions": [3.1563] }}
         scores=res['evaluation_scores']
 
 # 5. we can display the prediction to the user
