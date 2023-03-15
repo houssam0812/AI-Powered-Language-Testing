@@ -4,7 +4,7 @@ import openai
 import pandas as pd
 
 '''
-# Welcome to Mind Magic
+# Welcome to Text Wizard
 '''
 primary_clr = st.get_option("theme.primaryColor")
 # 0. Fetching API keys from secrets
