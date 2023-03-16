@@ -80,6 +80,6 @@ if full_text:
             score_type = columns[i].markdown(f'<div style="text-align: center;">{scores_table.columns[i]}</div>', unsafe_allow_html=True)
             score_value= scores_table.loc[0,scores_table.columns[i]]
             if score_value>=3.5:
-                score_to_print=columns[i].success(round(score_value,2))
+                score_to_print=columns[i].success(round(score_value,1))
             else:
-                score_to_print=columns[i].error(round(score_value,2))
+                score_to_print=columns[i].error(round(score_value,1))
